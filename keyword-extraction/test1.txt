@@ -1,0 +1,2 @@
+n the case of the term frequency tf(t,d), the simplest choice is to use the to
+ raw frequency of a term in a document, i.e. the number of times that term t occurs in document d. If we denote the raw frequency of t by f(t,d), then the simple tf scheme is
