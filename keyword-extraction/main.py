@@ -8,10 +8,10 @@ programmingWords = pickle.load(open("programmingWords.st", "rb"))
 
 def f():
 	
-users_passed = []
-users_inQueue = [] 
+passedUsers = []
+inQueueUsers = [] 
 while (len(users_queue)>0):
-	user = users_inQueue[0]
+	user = inQueueUsers[0]
 	twitts = user.get_twitt()
 	for twitt in twitss:
 		keyWords = extraction.getKeyWords(twitt, 3)
