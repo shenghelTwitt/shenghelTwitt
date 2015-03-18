@@ -47,9 +47,10 @@ passedUsers = []
 inQueueUsers = [] 
 while (len(inQueueUsers) > 0):### in bayad bere tu thread (ye lock ham bayad bara in lista accuire beshe)
 	user = inQueueUsers[0]
-	user.attraction = getUserAttraction(user)
-	inQueueUsers += user.get_flwing
-	passedUsers.append(user)
+	if user not in passedUsers:
+		user.attraction = getUserAttraction(user)
+		inQueueUsers += user.get_flwing
+		passedUsers.append(user)
 	del inQueueUsers[user]
 
 pickle.dump(footballsWords, open("footballWords.st", "wb"))
