@@ -16,13 +16,13 @@ def stop():
 	pickle.dump(footballsWords, open("footballWords.st", "wb"))
 	pickle.dump(programmingWords, open("programmingWords.st", "wb"))
 	
-def getTwittAttraction(twitt):
+def getTextAttraction(text):
     global footballsWords#textlist
     global programmingWords#
     attraction = [0, 0]#[football, programming]
     football = 0
     programming = 1
-    keywords = extraction.getKeyWords(twitt, 4)
+    keywords = extraction.getKeyWords(text, 4)
     for word in keywords:
     	if keywords[word] in footballsWords:
     	    attraction[football] +=1
@@ -43,13 +43,13 @@ def getTwittAttraction(twitt):
     	    	programmingWords.append(word)
     	return [0, 1]
 ######################################################milad		
-def getUserAttraction(user):
-    user_attraction = [0, 0]
-    twitts = user.get_twitt()
-    for twitt in twitss:
-        temp_attraction = getTwittAttraction(twitt)
-        user_attraction[0] += temp_attraction[0]
-        user_attraction[1] += temp_attraction[1]
-    return [user_attraction[0] / len(twitts), user_attraction[1] / len(twitts), len(twitts)]		
+def getAllTextsAttraction(texts):
+    texts_attraction = [0, 0]
+  
+    for text in texts:
+        temp_attraction = getTextAttraction(text)
+        texts_attraction[0] += temp_attraction[0]
+        texts_attraction[1] += temp_attraction[1]
+    return [texts_attraction[0] / len(texts), texts_attraction[1] / len(texts), len(texts)]		
 
 	

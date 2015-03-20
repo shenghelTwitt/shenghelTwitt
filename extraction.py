@@ -133,7 +133,4 @@ def stop():
 	initializer_file = open("initializer.st", 'w')
 	initializer_file.write(str(docCount))
 	saveAllWordsToFile(allWords)
-#pickle.dump({"a":[0,1]}, open("allWords.txt", "wb"))
-
-#print ("allWord is :", allWords)
 

@@ -16,4 +16,5 @@ for i in cookies :
     if i['name'] == 'auth_token' :
         value = str(i['value'])
         break
-open('cookie.st','r').write(value)
+        
+pickle.dump(value, open('cookie.st','rb'))

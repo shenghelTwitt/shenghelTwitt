@@ -1,12 +1,19 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
 global opener
+global cookie
+
+def start():
+	global cookie
+	cookie = pickle.load(open("cookie.st", "rb"))
+
 def setup_opener():
+	global cookie
 	proxy = urllib2.ProxyHandler({'https': '127.0.0.1:8580'})
 	opener = urllib2.build_opener(proxy)
 	urllib2.install_opener(opener)
 
-	opener.addheaders.append(('Cookie', 'auth_token=' + value))
+	opener.addheaders.append(('Cookie', 'auth_token=' + cookie))
 	return opener
 opener = setup_opener()
 
