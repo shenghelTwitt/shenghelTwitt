@@ -1,6 +1,6 @@
 import threading, pickle
 import scraper, attraction
-
+import os
 #treadsCount = 3
 ##*****initialize locks*****
 global lock_inQueueUsernames
@@ -40,13 +40,17 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 		passedUsers.append(user)
 		lock_passedUsers.release()
 
-def start(treadsCount):
+def start(threadsCount):
 	
 	#scraper.setup_opener() bayad fix she
 	attraction.start()
+	if not os.path.exists("passedUsers.st"):
+		pickle.dump([], open("passedUsers.st", "wb"))
+	if not os.path.exists("inQueueUsers.st"):
+		pickle.dump([], open("inQueueUsers.st", "wb"))
 	passedUsers = pickle.load(open("passedUsers.st", "rb"))
 	passedUsers = pickle.load(open("inQueueUsers.st", "rb"))
-	for i in range(treadsCount):
+	for i in range(threadsCount):
 		fThread.append(threading.Thread(target=f))
 
 def stop():
@@ -54,12 +58,13 @@ def stop():
 	pickle.dump(passedUsers, open("passedUsers.st", "wb"))
 	pickle.dump(inQueueUsers, open("inQueueUsernames.st", "wb"))
 
+#bayad begim ke az ki shoro kone
 while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
 		#threadCount = input("how many thread? :")
 		threadCount = 1
-		start(treadsCount)
+		start(threadCount)
 	elif faz == "stop":
 		stop()
 		print ("khoda hafeze hamegi")

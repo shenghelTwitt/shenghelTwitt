@@ -1,13 +1,14 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
 import pickle
-
+import os
 global opener
 global cookie
 
 def start():
 	global cookie
 	cookie = pickle.load(open("cookie.st", "rb"))
+	opener = setup_opener()
 
 def setup_opener():
 	global cookie
@@ -17,7 +18,7 @@ def setup_opener():
 
 	opener.addheaders.append(('Cookie', 'auth_token=' + cookie))
 	return opener
-opener = setup_opener()
+
 
 class User:
 	def get_twitt(self,name = ''):

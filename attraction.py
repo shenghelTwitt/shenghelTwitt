@@ -1,5 +1,6 @@
 import pickle
 import extraction
+import os
 
 global footballsWords#textlist
 global programmingWords#
@@ -7,6 +8,10 @@ global programmingWords#
 def start():
 	global footballsWords
 	global programmingWords
+	if not os.path.exists("footballWords.st"):
+		pickle.dump([football, goal], open("footballWords.st", "wb"))
+	if not os.path.exists("programmingWords.st"):
+		pickle.dump([programming, cpp], open("programmingWords.st", "wb"))
 	footballsWords =  pickle.load(open("footballWords.st", "rb"))##behtare ke az pickle ensefade nashe
 	programmingWords = pickle.load(open("programmingWords.st", "rb"))
 	
