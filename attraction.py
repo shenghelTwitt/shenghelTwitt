@@ -55,6 +55,8 @@ def getAllTextsAttraction(texts):
         temp_attraction = getTextAttraction(text)
         texts_attraction[0] += temp_attraction[0]
         texts_attraction[1] += temp_attraction[1]
+	if len(texts) == 0:
+		return [0, 0, 0]
     return [texts_attraction[0] / len(texts), texts_attraction[1] / len(texts), len(texts)]		
 
 	
