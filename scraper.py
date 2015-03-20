@@ -1,5 +1,7 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
+import pickle
+
 global opener
 global cookie
 

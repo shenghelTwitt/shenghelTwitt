@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
+import pickle
 
 userName = 'armanjtehrani'#raw_input('please enter your user name & password: \n')
 passWord = 'POISALA'#raw_input()
@@ -17,4 +17,4 @@ for i in cookies :
         value = str(i['value'])
         break
         
-pickle.dump(value, open('cookie.st','rb'))
+pickle.dump(value, open('cookie.st','wb'))
