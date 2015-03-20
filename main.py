@@ -38,7 +38,7 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 		if not isInPassedUsers(username):
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
-			user.attraction = getUserAttraction(user.get_twitt())
+			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
 			lock_inQueueUsernames.acquire()
 			inQueueUsernames += user.get_flwing()
 			lock_inQueueUsernames.release()
@@ -51,6 +51,7 @@ def start(threadsCount):
 	global passedUsers
 	#scraper.setup_opener() bayad fix she
 	attraction.start()
+	scraper.start()
 	if not os.path.exists("passedUsers.st"):
 		pickle.dump([], open("passedUsers.st", "wb"))
 	if not os.path.exists("inQueueUsernames.st"):

@@ -7,11 +7,14 @@ global cookie
 
 def start():
 	global cookie
+	global opener
 	cookie = pickle.load(open("cookie.st", "rb"))
+	print "in start of scraper"
 	opener = setup_opener()
 
 def setup_opener():
 	global cookie
+	global opener
 	proxy = urllib2.ProxyHandler({'https': '127.0.0.1:8580'})
 	opener = urllib2.build_opener(proxy)
 	urllib2.install_opener(opener)
@@ -22,6 +25,7 @@ def setup_opener():
 
 
 class User:
+	global opener
 	def get_twitt(self,name = ''):
 		profile = opener.open('https://twitter.com/'+name)
 		prohttp = profile.read()
