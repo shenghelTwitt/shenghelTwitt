@@ -17,6 +17,7 @@ def setup_opener():
 	urllib2.install_opener(opener)
 
 	opener.addheaders.append(('Cookie', 'auth_token=' + cookie))
+	print "salam"
 	return opener
 
 

@@ -24,34 +24,42 @@ def isInPassedUsers(username):
 	return False
 	
 def f():#inam be khatere inke ziadi code stylemon shakh nabashe
-	lock_pause.acquire()
-	lock_pause.release()
-	lock_inQueueUsernames.acquire()
-	username = inQueueUsers.pop(0)
-	lock_inQueueUsernames.release()
-	if not isInPassedUsers(username):
-		#passedUsers.append(user) shayad inja behtar bashe
-		user = scraper.User(username)
-		user.attraction = getUserAttraction(user.get_twitt())
+	global inQueueUsernames
+	global passedUsers
+	while True:
+		print("len is :",len(inQueueUsernames))
+		if len(inQueueUsernames) <= 0:
+			continue
+		lock_pause.acquire()
+		lock_pause.release()
 		lock_inQueueUsernames.acquire()
-		inQueueUsernames += user.get_flwing()
+		username = inQueueUsernames.pop(0)
 		lock_inQueueUsernames.release()
-		lock_passedUsers.acquire()
-		passedUsers.append(user)
-		lock_passedUsers.release()
+		if not isInPassedUsers(username):
+			#passedUsers.append(user) shayad inja behtar bashe
+			user = scraper.User(username)
+			user.attraction = getUserAttraction(user.get_twitt())
+			lock_inQueueUsernames.acquire()
+			inQueueUsernames += user.get_flwing()
+			lock_inQueueUsernames.release()
+			lock_passedUsers.acquire()
+			passedUsers.append(user)
+			lock_passedUsers.release()
 fThreads = []
 def start(threadsCount):
-	
+	global inQueueUsernames
+	global passedUsers
 	#scraper.setup_opener() bayad fix she
 	attraction.start()
 	if not os.path.exists("passedUsers.st"):
 		pickle.dump([], open("passedUsers.st", "wb"))
-	if not os.path.exists("inQueueUsers.st"):
-		pickle.dump([], open("inQueueUsers.st", "wb"))
+	if not os.path.exists("inQueueUsernames.st"):
+		pickle.dump(["armanjtehrani","joof"], open("inQueueUsernames.st", "wb"))
 	passedUsers = pickle.load(open("passedUsers.st", "rb"))
-	passedUsers = pickle.load(open("inQueueUsers.st", "rb"))
+	inQueueUsernames = pickle.load(open("inQueueUsernames.st", "rb"))
 	for i in range(threadsCount):
 		fThreads.append(threading.Thread(target=f))
+		fThreads[i].start()
 
 def stop():
 	attraction.stop()
