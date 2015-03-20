@@ -39,7 +39,7 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 		lock_passedUsers.acquire()
 		passedUsers.append(user)
 		lock_passedUsers.release()
-
+fThreads = []
 def start(threadsCount):
 	
 	#scraper.setup_opener() bayad fix she
@@ -51,25 +51,25 @@ def start(threadsCount):
 	passedUsers = pickle.load(open("passedUsers.st", "rb"))
 	passedUsers = pickle.load(open("inQueueUsers.st", "rb"))
 	for i in range(threadsCount):
-		fThread.append(threading.Thread(target=f))
+		fThreads.append(threading.Thread(target=f))
 
 def stop():
 	attraction.stop()
 	pickle.dump(passedUsers, open("passedUsers.st", "wb"))
-	pickle.dump(inQueueUsers, open("inQueueUsernames.st", "wb"))
+	pickle.dump(inQueueUsernames, open("inQueueUsernames.st", "wb"))
 
 #bayad begim ke az ki shoro kone
 while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
 		#threadCount = input("how many thread? :")
-		threadCount = 1
-		start(threadCount)
+		threadsCount = 1
+		start(threadsCount)
 	elif faz == "stop":
 		stop()
 		print ("khoda hafeze hamegi")
 		break
-	if faz == "pause":
+	elif faz == "pause":
 		lock_pause.acquire()
 	elif faz == "show":
 		lock_pause.acquire()
