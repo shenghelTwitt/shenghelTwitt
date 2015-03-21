@@ -4,7 +4,7 @@ import pickle
 import os
 global opener
 global cookie
-
+# -*- coding: utf-8 -*-
 def start():
 	global cookie
 	global opener
@@ -17,7 +17,7 @@ def start():
 def setup_opener():
 	global cookie
 	global opener
-	proxy = urllib2.ProxyHandler({'https': '127.0.0.1:8580'})
+	proxy = urllib2.ProxyHandler({'https': '127.0.0.1:8080'})
 	opener = urllib2.build_opener(proxy)
 	urllib2.install_opener(opener)
 
@@ -34,7 +34,10 @@ class User:
 		soup = BeautifulSoup(prohttp)
 		twitt = soup.findAll('p',{'class':'ProfileTweet-text js-tweet-text u-dir','lang':'en','data-aria-label-part':'0','dir':'ltr'})
 		for i in range(len(twitt)):
-			twitt[i] = twitt[i].text
+			print "###",twitt[i].text
+			twitt[i] = str( twitt[i].text.encode("ascii","ignore"))
+			#twitt[i] = str(twitt[i].text)
+			print "@@@",twitt[i]
 		return twitt
 
 	def get_flwing(self):

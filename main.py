@@ -37,19 +37,21 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 		if len(inQueueUsernames) <= 0:
 			print("in if")
 			continue
-		print ("before lock_pause")
+		#print ("before lock_pause")
 		lock_pause.acquire()
-		print ("between lock_pause")
+		#print ("between lock_pause")
 		lock_pause.release()
-		print ("after pause")
+		#print ("after pause")
 		lock_inQueueUsernames.acquire()
 		username = inQueueUsernames.pop(0)
 		lock_inQueueUsernames.release()
-		print ("befor if")
+		#print ("befor if")
 		if not isInPassedUsers(username):
+			print "**adding :", username
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
 			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
+			print "after get atract"
 			lock_inQueueUsernames.acquire()
 			inQueueUsernames += user.get_flwing()
 			lock_inQueueUsernames.release()

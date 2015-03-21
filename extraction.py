@@ -72,8 +72,9 @@ def getMaxOfWords(words):
 	maxWord = ('', 0)
 	for word in words:
 		#print ("$$word is : ", word)
-		if words[word][0] > maxWord[1]:
+		if words[word][0] >= maxWord[1]:
 			maxWord = (word, words[word][0])
+	print("$$max is :", maxWord)
 	return maxWord
 	
 def getNMAxOFWordsByWeight(words, n):
@@ -81,23 +82,28 @@ def getNMAxOFWordsByWeight(words, n):
 	return n maximum of words list
 	"""
 	maxes = {}
-
+	if len(words) <= n:
+		return words
+	print "in Nmax func words are :" ,words
 	for i in range (n):
 		#print ("&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 		maxx = ('', 0)#string , weight
 		for word in words:
 			#print("in maxx for words[word][1] is:", words[word][1])
-			if words[word][1] > maxx[1]:
+			if words[word][1] >= maxx[1]:
 			#	print("in if e maxxx")
 				maxx = (word, words[word][1])
 		#print ("maxes[0] is :", maxx[0], "words[maxx[0]] is :", words[maxx[0]])
 		maxes[maxx[0]] = words[maxx[0]]
 		#print("$$$adding   :", maxx[0]) 
+		print "****"+str(i)+"is", maxx
 		del words[maxx[0]]
-	#print ("&&&in last function", maxes)
+	print ("&&&in last function", maxes)
 	return maxes
 	
 def getKeyWords(doc, keyWordCount):
+	global allWords
+	global docCount
 	"""
 	return n keyWords of a document as a dictionary word->[count, weight]
 	"""
@@ -106,14 +112,22 @@ def getKeyWords(doc, keyWordCount):
 	maxOfDocWords = getMaxOfWords(docWords)
 	k = .5
 	for word in docWords:
+		print "word is :", word, docWords[word]
 		if(allWords.get(word) == None):	
 			allWords[word] = [0,1]
+			print "in if"
+			print "docCount is :", docCount
+			print "allWords[word][1] is :", allWords[word][1]
 			docWords[word][1] = math.log(docCount / allWords[word][1]) * (k + (1 - k) * docWords[word][0] / maxOfDocWords[1])
 		else:
+			print "in else"
+			print "docCount is :", docCount
+			print "allWords[word][1] is :", allWords[word][1]
 			docWords[word][1] = math.log(docCount / allWords[word][1]) * (k + (1 - k) * docWords[word][0] / maxOfDocWords[1])
 			allWords[word][1] += 1
 		allWords[word][0] += docWords[word][0]
 	#print ("docWords is :", docWords)
+	docCount += 1
 	return getNMAxOFWordsByWeight(docWords, keyWordCount)
 
 def initialize(): 
