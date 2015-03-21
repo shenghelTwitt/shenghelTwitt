@@ -40,8 +40,10 @@ def getTextAttraction(text):
 	keywords = extraction.getKeyWords(text, 4)
 	for word in keywords:
 		if keywords[word] in footballsWords:
+			print "find a football word"
 			attraction[football] +=1
 		if keywords[word] in programmingWords:
+			print "find a programming word"
 			attraction[programming] +=1
 	if attraction[football] == attraction[programming]:
 		if  attraction[football] == 0:

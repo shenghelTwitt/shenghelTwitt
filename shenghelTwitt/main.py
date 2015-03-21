@@ -23,7 +23,7 @@ def isInPassedUsers(username):
 	for user in passedUsers:
 		print("loop **")
 		if user.name == username:
-			return true
+			return True
 	return False
 	
 def f():#inam be khatere inke ziadi code stylemon shakh nabashe
@@ -55,7 +55,7 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
 			print "after get atract"
 			lock_inQueueUsernames.acquire()
-			inQueueUsernames += user.get_flwing()
+			inQueueUsernames += user.get_flwing()#age dota opener kar kone in bayad birone lock bere
 			lock_inQueueUsernames.release()
 			lock_passedUsers.acquire()
 			passedUsers.append(user)

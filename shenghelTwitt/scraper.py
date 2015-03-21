@@ -17,8 +17,9 @@ def start():
 def setup_opener():
 	global cookie
 	global opener
-	proxy = urllib2.ProxyHandler({'https': '127.0.0.1:8080'})
-	opener = urllib2.build_opener(proxy)
+	#proxy = urllib2.ProxyHandler({'https': '127.0.0.1:8080'})
+	#opener = urllib2.build_opener(proxy)
+	opener = urllib2.build_opener()
 	urllib2.install_opener(opener)
 
 	opener.addheaders.append(('Cookie', 'auth_token=' + cookie))
