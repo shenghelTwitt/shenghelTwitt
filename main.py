@@ -5,7 +5,7 @@ import os
 ##*****initialize locks*****
 global lock_inQueueUsernames
 lock_inQueueUsernames = threading.Lock()
-global lock_inQueueUsernames
+global lock_passedUsers
 lock_passedUsers = threading.Lock()
 global lock_pause
 lock_pause = threading.Lock()
@@ -16,6 +16,7 @@ passedUsers = []
 global inQueueUsernames# list of inqueue usernames as string
 inQueueUsernames = []
 
+##*****initialize variables*****
 
 def isInPassedUsers(username):
 	print("in pass function")
@@ -28,6 +29,9 @@ def isInPassedUsers(username):
 def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 	global inQueueUsernames
 	global passedUsers
+	global lock_inQueueUsernames
+	global lock_inQueueUsernames
+	global lock_pause
 	while True:
 		print("len is :",len(inQueueUsernames))
 		if len(inQueueUsernames) <= 0:
@@ -56,6 +60,9 @@ fThreads = []
 def start(threadsCount):
 	global inQueueUsernames
 	global passedUsers
+	global lock_inQueueUsernames
+	global lock_inQueueUsernames
+	global lock_pause
 	#scraper.setup_opener() bayad fix she
 	extraction.initialize()
 	attraction.start()
@@ -78,9 +85,11 @@ def stop():
 	pickle.dump(inQueueUsernames, file_inQueueUsernames)
 	file_passedUsers.close()
 	file_inQueueUsernames.close()
+start(1)
 #bayad begim ke az ki shoro kone
-while True:
-	faz = raw_input("What do you want to do :")
+""""while True:
+	faz="start"
+	#faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
 		#threadCount = input("how many thread? :")
 		threadsCount = 1
@@ -104,3 +113,4 @@ while True:
 		pass
 	else:
 		print ("what?")
+"""
