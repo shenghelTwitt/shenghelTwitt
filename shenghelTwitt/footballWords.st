@@ -1,6 +1,6 @@
 (lp0
 S'football'
 p1
-aS'goal'
+aS'is'
 p2
 a.

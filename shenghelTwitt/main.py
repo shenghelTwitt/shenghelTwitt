@@ -17,8 +17,7 @@ global inQueueUsernames# list of inqueue usernames as string
 inQueueUsernames = []
 
 ##*****initialize variables*****
-global relations
-relations =[]
+
 def isInPassedUsers(username):
 	print("in pass function")
 	for user in passedUsers:
@@ -98,8 +97,8 @@ def stop():
 start(1)
 print "after starting"
 import time
-for i in range (100):
-	print 100 - i
+for i in range (1200):
+	print 1200 - i
 	time.sleep(1)
 print "I want stop"
 stop()

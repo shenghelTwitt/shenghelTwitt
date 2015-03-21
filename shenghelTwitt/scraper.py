@@ -11,7 +11,7 @@ def start():
 	file_cookie = open("cookie.st", "rb")
 	cookie = pickle.load(file_cookie)
 	file_cookie.close()
-	print "in start of scraper"
+	#print "in start of scraper"
 	opener = setup_opener()
 
 def setup_opener():
@@ -22,7 +22,7 @@ def setup_opener():
 	urllib2.install_opener(opener)
 
 	opener.addheaders.append(('Cookie', 'auth_token=' + cookie))
-	print "salam"
+	#print "salam"
 	return opener
 
 
@@ -34,10 +34,10 @@ class User:
 		soup = BeautifulSoup(prohttp)
 		twitt = soup.findAll('p',{'class':'ProfileTweet-text js-tweet-text u-dir','lang':'en','data-aria-label-part':'0','dir':'ltr'})
 		for i in range(len(twitt)):
-			print "###",twitt[i].text
+			#print "###",twitt[i].text
 			twitt[i] = str( twitt[i].text.encode("ascii","ignore"))
 			#twitt[i] = str(twitt[i].text)
-			print "@@@",twitt[i]
+			#print "@@@",twitt[i]
 		return twitt
 
 	def get_flwing(self):
