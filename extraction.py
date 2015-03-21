@@ -28,9 +28,11 @@ def getAllWordsFromFile():
 	
 	print ("after initialize words")
 	return words"""
-	a= pickle.load(open("allWords.st", "rb"))
+	file_allWords = open("allWords.st", "rb")
+	aw= pickle.load(file_allWords)
+	file_allWords.close()
 	#print ("#### types is ", a)
-	return a
+	return aw
 	
 def saveAllWordsToFile(words):
 	"""
@@ -43,7 +45,9 @@ def saveAllWordsToFile(words):
 		allWords_file.write(word + "%" + str(words[word][0]) + "%" + str(words[word][1]) + "!" + "\n")
 	"""
 	#print("%%%%%words before save is ", words)
-	pickle.dump(words, open("allWords.st", "wb"))
+	file_allWords = open("allWords.st", "wb")
+	pickle.dump(words, file_allWords)
+	file_allWords.close()
 
 def getWordsOftext(text):#get a text by file.read()
 	"""
@@ -119,7 +123,7 @@ def initialize():
 	intializing variables from file 
 	"""
 	if not os.path.exists("allWords.st"):
-		pickle.dump({}, open("allWords.st", "wb"))
+		pickle.dump({hello:[1, 1]}, open("allWords.st", "wb"))
 	if not os.path.exists("initializer.st"):
 		open("initializer.st", "w").write("1")
 	initializer_file = open("initializer.st", 'r')
@@ -130,7 +134,8 @@ def initialize():
 ###### 
 
 def stop():
-	initializer_file = open("initializer.st", 'w')
-	initializer_file.write(str(docCount))
+	file_initializer = open("initializer.st", 'w')
+	file_initializer.write(str(docCount))
+	file_initializer.close
 	saveAllWordsToFile(allWords)
 

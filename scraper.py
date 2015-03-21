@@ -8,7 +8,9 @@ global cookie
 def start():
 	global cookie
 	global opener
-	cookie = pickle.load(open("cookie.st", "rb"))
+	file_cookie = open("cookie.st", "rb")
+	cookie = pickle.load(file_cookie)
+	file_cookie.close()
 	print "in start of scraper"
 	opener = setup_opener()
 

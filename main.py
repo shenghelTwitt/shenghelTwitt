@@ -1,5 +1,5 @@
 import threading, pickle
-import scraper, attraction
+import scraper, attraction, extraction
 import os
 #treadsCount = 3
 ##*****initialize locks*****
@@ -18,7 +18,9 @@ inQueueUsernames = []
 
 
 def isInPassedUsers(username):
+	print("in pass function")
 	for user in passedUsers:
+		print("loop **")
 		if user.name == username:
 			return true
 	return False
@@ -29,12 +31,17 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 	while True:
 		print("len is :",len(inQueueUsernames))
 		if len(inQueueUsernames) <= 0:
+			print("in if")
 			continue
+		print ("before lock_pause")
 		lock_pause.acquire()
+		print ("between lock_pause")
 		lock_pause.release()
+		print ("after pause")
 		lock_inQueueUsernames.acquire()
 		username = inQueueUsernames.pop(0)
 		lock_inQueueUsernames.release()
+		print ("befor if")
 		if not isInPassedUsers(username):
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
@@ -50,6 +57,7 @@ def start(threadsCount):
 	global inQueueUsernames
 	global passedUsers
 	#scraper.setup_opener() bayad fix she
+	extraction.initialize()
 	attraction.start()
 	scraper.start()
 	if not os.path.exists("passedUsers.st"):
@@ -61,12 +69,15 @@ def start(threadsCount):
 	for i in range(threadsCount):
 		fThreads.append(threading.Thread(target=f))
 		fThreads[i].start()
-
+	print "end of starting"
 def stop():
 	attraction.stop()
-	pickle.dump(passedUsers, open("passedUsers.st", "wb"))
-	pickle.dump(inQueueUsernames, open("inQueueUsernames.st", "wb"))
-
+	file_passedUsers = open("passedUsers.st", "wb")
+	file_inQueueUsernames = open("inQueueUsernames.st", "wb")
+	pickle.dump(passedUsers, file_passedUsers)
+	pickle.dump(inQueueUsernames, file_inQueueUsernames)
+	file_passedUsers.close()
+	file_inQueueUsernames.close()
 #bayad begim ke az ki shoro kone
 while True:
 	faz = raw_input("What do you want to do :")
