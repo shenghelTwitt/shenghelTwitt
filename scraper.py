@@ -28,8 +28,8 @@ def setup_opener():
 
 class User:
 	global opener
-	def get_twitt(self,name = ''):
-		profile = opener.open('https://twitter.com/'+name)
+	def get_twitt(self):
+		profile = opener.open('https://twitter.com/'+self.name)
 		prohttp = profile.read()
 		soup = BeautifulSoup(prohttp)
 		twitt = soup.findAll('p',{'class':'ProfileTweet-text js-tweet-text u-dir','lang':'en','data-aria-label-part':'0','dir':'ltr'})
@@ -37,25 +37,26 @@ class User:
 			twitt[i] = twitt[i].text
 		return twitt
 
-	def get_flwing(self,name = ''):
-		profile = opener.open('https://twitter.com/' + name + '/following')
+	def get_flwing(self):
+		profile = opener.open('https://twitter.com/' + self.name + '/following')
 		prohttp = profile.read()
 		soup = BeautifulSoup(prohttp)
 		flwing = soup.findAll('span',{'class':'u-linkComplex-target'})
 		del flwing[0]
-		del flwing[1]
+		del flwing[0]
 		for i in range(len(flwing)):
-			flwing[i] = flwing[i].text
+			flwing[i] = str(flwing[i].text)
+			
 		return flwing
-	def get_flwer(self,name = ''):
-		profile = opener.open('https://twitter.com/' + name + '/followers')
+	def get_flwer(self):
+		profile = opener.open('https://twitter.com/' + self.name + '/followers')
 		prohttp = profile.read()
 		soup = BeautifulSoup(prohttp)
 		flwer = soup.findAll('span',{'class':'u-linkComplex-target'})
 		del flwer[0]
-		del flwer[1]
+		del flwer[0]
 		for i in range(len(flwer)):
-			flwer[i] = flwer[i].text
+			flwer[i] = str(flwer[i].text)
 		return flwer
 	def __init__(self,name = ''):
 		self.name = name
