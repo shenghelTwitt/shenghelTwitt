@@ -26,13 +26,14 @@ def isInPassedUsers(username):
 			return True
 	return False
 	
-def f():#inam be khatere inke ziadi code stylemon shakh nabashe
+def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 	global inQueueUsernames
 	global passedUsers
 	global lock_inQueueUsernames
 	global lock_inQueueUsernames
 	global lock_pause
 	while True:
+		print i
 		#print "salam"
 		#print("len is :",len(inQueueUsernames))
 		if len(inQueueUsernames) <= 0:
@@ -54,8 +55,9 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 			user = scraper.User(username)
 			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
 			#print "after get atract"
+			user_flowing = user.get_flwing()
 			lock_inQueueUsernames.acquire()
-			inQueueUsernames += user.get_flwing()#age dota opener kar kone in bayad birone lock bere
+			inQueueUsernames += user_flowing#age dota opener kar kone in bayad birone lock bere
 			lock_inQueueUsernames.release()
 			lock_passedUsers.acquire()
 			passedUsers.append(user)
@@ -78,7 +80,7 @@ def start(threadsCount):
 	passedUsers = pickle.load(open("passedUsers.st", "rb"))
 	inQueueUsernames = pickle.load(open("inQueueUsernames.st", "rb"))
 	for i in range(threadsCount):
-		fThreads.append(threading.Thread(target=f))
+		fThreads.append(threading.Thread(target=f, args=(i,)))
 		fThreads[i].start()
 		#fThreads[i].join()
 	print "end of starting"
@@ -109,7 +111,6 @@ while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
 		threadCount = input("how many thread? :")
-		threadsCount = 1
 		start(threadsCount)
 	elif faz == "stop":
 		stop()
@@ -127,7 +128,7 @@ while True:
 	elif faz == "showFootballWords":
 		print attraction.footballsWords
 	elif faz == "showProgrammingWords":
-		pass
+		print attraction.programmingWords
 	else:
 		print ("what?")
 
