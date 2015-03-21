@@ -19,9 +19,9 @@ inQueueUsernames = []
 ##*****initialize variables*****
 
 def isInPassedUsers(username):
-	print("in pass function")
+	#print("in pass function")
 	for user in passedUsers:
-		print("loop **")
+		#print("loop **")
 		if user.name == username:
 			return True
 	return False
@@ -33,7 +33,7 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 	global lock_inQueueUsernames
 	global lock_pause
 	while True:
-		print "salam"
+		#print "salam"
 		#print("len is :",len(inQueueUsernames))
 		if len(inQueueUsernames) <= 0:
 			#print("in if")
@@ -53,7 +53,7 @@ def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
 			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
-			print "after get atract"
+			#print "after get atract"
 			lock_inQueueUsernames.acquire()
 			inQueueUsernames += user.get_flwing()#age dota opener kar kone in bayad birone lock bere
 			lock_inQueueUsernames.release()
@@ -91,10 +91,10 @@ def stop():
 	pickle.dump(inQueueUsernames, file_inQueueUsernames)
 	file_passedUsers.close()
 	file_inQueueUsernames.close()
-	for thread in fThreads:
-		thread.close()
+	#for thread in fThreads:
+	#	thread.close()
 	print "end of stop"
-start(1)
+"""start(1)
 print "after starting"
 import time
 for i in range (1200):
@@ -103,8 +103,9 @@ for i in range (1200):
 print "I want stop"
 stop()
 print "after stop"
+"""
 #bayad begim ke az ki shoro kone
-"""while True:
+while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
 		threadCount = input("how many thread? :")
@@ -130,4 +131,4 @@ print "after stop"
 	else:
 		print ("what?")
 
-"""
+
