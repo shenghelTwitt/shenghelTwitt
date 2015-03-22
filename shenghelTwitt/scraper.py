@@ -65,7 +65,7 @@ class User:
 	def __init__(self,name = ''):
 		self.name = name
 		#self.flwing = self.get_flwing(name)
-		self.attraction = [0,0]
+		self.attraction = [0, 0, 0] #[FOOTBALL, PROGRAMMING, ALL]
 	def obj_flwing(self):
 		objList = []
 		for i in self.flwing:

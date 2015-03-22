@@ -29,7 +29,7 @@ def isInPassedUsers(username):
 def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 	global inQueueUsernames
 	global passedUsers
-	global lock_inQueueUsernames
+	global lock_passedUsers
 	global lock_inQueueUsernames
 	global lock_pause
 	while True:
@@ -37,7 +37,7 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 		#print "salam"
 		#print("len is :",len(inQueueUsernames))
 		if len(inQueueUsernames) <= 0:
-			#print("in if")
+			print("no User in Queue")
 			continue
 		#print ("before lock_pause")
 		lock_pause.acquire()
@@ -47,13 +47,21 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 		lock_inQueueUsernames.acquire()
 		username = inQueueUsernames.pop(0)
 		lock_inQueueUsernames.release()
-		print "user is :", username
+		#print "user is :", username
 		#print ("befor if")
-		if not isInPassedUsers(username):
+		lock_passedUsers.acquire()
+		is_inPassed = isInPassedUsers(username)
+		lock_passedUsers.release()
+		if not is_inPassed:
 			print "**adding :", username
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
-			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
+			#print "befor get twitts"
+			user_twitts = user.get_twitt()
+			
+			#print "tedade twitt ha is :", len(user_twitts)
+			user.attraction = attraction.getAllTextsAttraction(user_twitts)
+			print "user attraction is :", user.attraction
 			#print "after get atract"
 			user_flowing = user.get_flwing()
 			lock_inQueueUsernames.acquire()
@@ -81,8 +89,11 @@ def start(threadsCount):
 	inQueueUsernames = pickle.load(open("inQueueUsernames.st", "rb"))
 	for i in range(threadsCount):
 		fThreads.append(threading.Thread(target=f, args=(i,)))
+		print fThreads[i].daemon
+		fThreads[i].setDaemon(True)
+		print fThreads[i].daemon
 		fThreads[i].start()
-		#fThreads[i].join()
+		
 	print "end of starting"
 def stop():
 	attraction.stop()
@@ -93,8 +104,8 @@ def stop():
 	pickle.dump(inQueueUsernames, file_inQueueUsernames)
 	file_passedUsers.close()
 	file_inQueueUsernames.close()
-	#for thread in fThreads:
-	#	thread.close()
+#	for thread in fThreads:
+	#	del thread
 	print "end of stop"
 """start(1)
 print "after starting"
@@ -110,7 +121,7 @@ print "after stop"
 while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
-		threadCount = input("how many thread? :")
+		threadsCount = input("how many thread? :")
 		start(threadsCount)
 	elif faz == "stop":
 		stop()
