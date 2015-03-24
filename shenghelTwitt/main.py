@@ -121,8 +121,8 @@ print "after stop"
 while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
-		threadsCount = input("how many thread? :")
-		start(threadsCount)
+		fThreadsCount = input("how many thread? :")
+		start(fThreadsCount)
 	elif faz == "stop":
 		stop()
 		print ("khoda hafeze hamegi")
