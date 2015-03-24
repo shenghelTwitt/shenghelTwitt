@@ -2,7 +2,7 @@ from igraph import *
 
 def draw_graph(topol, users):
     g = Graph()
-    g.add_vertices(len(sers))
+    g.add_vertices(len(users))
     g.add_edges(topol)
     for i in range(len(users)):
         g.vs[i]['name'] = passedUsers[i].name

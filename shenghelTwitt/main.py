@@ -7,6 +7,8 @@ global lock_inQueueUsernames
 lock_inQueueUsernames = threading.Lock()
 global lock_passedUsers
 lock_passedUsers = threading.Lock()
+global lock_inProcessUsernames
+lock_inProcessUsernames = threading.Lock()
 global lock_pause
 lock_pause = threading.Lock()
 
@@ -15,7 +17,8 @@ global passedUsers# list of passed users as user object
 passedUsers = []
 global inQueueUsernames# list of inqueue usernames as string
 inQueueUsernames = []
-
+global inProcessUsernames
+inProcessUsernames = []
 ##*****initialize variables*****
 
 def isInPassedUsers(username):
@@ -52,24 +55,32 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 		lock_passedUsers.acquire()
 		is_inPassed = isInPassedUsers(username)
 		lock_passedUsers.release()
-		if not is_inPassed:
+		lock_inProcessUsernames.acquire()
+		is_inProcess = username in inProcessUsernames
+		lock_inProcessUsernames.release()
+		if not is_inProcess and not is_inPassed:
+			lock_inProcessUsernames.acquire()
+			inProcessUsernames.append(username)
+			lock_inProcessUsernames.release()
 			print "**adding :", username
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
-			#print "befor get twitts"
-			user_twitts = user.get_twitt()
-			
-			#print "tedade twitt ha is :", len(user_twitts)
-			user.attraction = attraction.getAllTextsAttraction(user_twitts)
+			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
 			print "user attraction is :", user.attraction
 			#print "after get atract"
-			user_flowing = user.get_flwing()
+			user_flowing = user.get_flwing()#age dota opener kar kone in bayad birone lock bere
+			"""inja chon tedade inQueueUsers ha ziade tekrari bodan dar inqueue ro bar resi nemikonim 
+			ta order zamani kam beshe dar avazmoghe faghat moghe ezafe kardan be inPAssed check
+			mikonim tekrari nabashe"""
 			lock_inQueueUsernames.acquire()
-			inQueueUsernames += user_flowing#age dota opener kar kone in bayad birone lock bere
+			inQueueUsernames += user_flowing
 			lock_inQueueUsernames.release()
 			lock_passedUsers.acquire()
 			passedUsers.append(user)
 			lock_passedUsers.release()
+			lock_inProcessUsernames.acquire()
+			inProcessUsernames.remove(username)
+			lock_inProcessUsernames.release()
 fThreads = []
 def start(threadsCount):
 	global inQueueUsernames
@@ -88,7 +99,7 @@ def start(threadsCount):
 	passedUsers = pickle.load(open("passedUsers.st", "rb"))
 	inQueueUsernames = pickle.load(open("inQueueUsernames.st", "rb"))
 	for i in range(threadsCount):
-		fThreads.append(threading.Thread(target=f, args=(i,)))
+		fThreads.append(threading.Thread(target=f, args=(i,)))#in i bayad nabashe
 		print fThreads[i].daemon
 		fThreads[i].setDaemon(True)
 		print fThreads[i].daemon
@@ -123,7 +134,7 @@ while True:
 	if faz == "start":#in age tedadam vorodi begire awlie
 		fThreadsCount = input("how many thread? :")
 		start(fThreadsCount)
-	elif faz == "stop":
+	elif faz == "stop":#must be pause befor stop
 		stop()
 		print ("khoda hafeze hamegi")
 		break

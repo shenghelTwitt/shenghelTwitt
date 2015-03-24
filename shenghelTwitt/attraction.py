@@ -58,10 +58,10 @@ def getTextAttraction(text):
 		#print "###",word,keywords[word], 
 		if word in footballsWords: #fixed keyword[word] is a bug
 			print "find a football word :", word
-			attraction[football] +=1
+			attraction[football] += 1
 		if word in programmingWords:
 			print "find a programming word :", word
-			attraction[programming] +=1
+			attraction[programming] += 1
 	if attraction[football] == attraction[programming]:
 		if  attraction[football] == 0:
 			return [0.0, 0.0]#testing 

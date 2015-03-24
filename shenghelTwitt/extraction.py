@@ -46,7 +46,9 @@ def saveAllWordsToFile(words):
 	"""
 	#print("%%%%%words before save is ", words)
 	file_allWords = open("allWords.st", "wb")
-	pickle.dump(words, file_allWords)
+	temp_words = words # in bara ine ke age vasate save threadehaye dg taghir dadan napoke 
+	#agar temp sakhtan tol bekeshe mipoke:D
+	pickle.dump(temp_words, file_allWords)
 	file_allWords.close()
 
 def getWordsOftext(text):#get a text by file.read()
