@@ -1,5 +1,5 @@
 import threading, pickle
-import scraper, attraction, extraction
+import scraper, attraction, extraction, graph
 import os
 #treadsCount = 3
 ##*****initialize locks*****
@@ -68,12 +68,12 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
 			print "user attraction is :", user.attraction
 			#print "after get atract"
-			user_flowing = user.get_flwing()#age dota opener kar kone in bayad birone lock bere
+			user.followingUsernames = user.get_flwing()#age dota opener kar kone in bayad birone lock bere
 			"""inja chon tedade inQueueUsers ha ziade tekrari bodan dar inqueue ro bar resi nemikonim 
 			ta order zamani kam beshe dar avazmoghe faghat moghe ezafe kardan be inPAssed check
 			mikonim tekrari nabashe"""
 			lock_inQueueUsernames.acquire()
-			inQueueUsernames += user_flowing
+			inQueueUsernames += user.followingUsernames
 			lock_inQueueUsernames.release()
 			lock_passedUsers.acquire()
 			passedUsers.append(user)
@@ -81,6 +81,7 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 			lock_inProcessUsernames.acquire()
 			inProcessUsernames.remove(username)
 			lock_inProcessUsernames.release()
+			
 fThreads = []
 def start(threadsCount):
 	global inQueueUsernames
@@ -106,6 +107,7 @@ def start(threadsCount):
 		fThreads[i].start()
 		
 	print "end of starting"
+	
 def stop():
 	attraction.stop()
 	extraction.stop()
@@ -142,7 +144,7 @@ while True:
 		lock_pause.acquire()
 	elif faz == "show":
 		lock_pause.acquire()
-		showGraph()
+		graph.draw_graph(passedUsers)
 	elif faz == "resume":
 		lock_pause.release()
 	elif faz == "showAllWords":
