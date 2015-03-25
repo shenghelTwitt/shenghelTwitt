@@ -21,14 +21,14 @@ def draw_graph(users):
 	print "processing relations ..."
 	relations = getRelations(users)
 	print "relations processed"
-	print "relations is :&&&&", relations
 	g = Graph()
 	g.add_vertices(len(users))
 	g.add_edges(relations)
 	for i in range(len(users)):
+		print "attract is :", users[i].attraction
 		g.vs[i]['name'] = users[i].name
-		g.vs[i]['red'] = int(users[i].attraction[0] * 255)
-		g.vs[i]['blue'] = users[i].attraction[1] * 255
+		g.vs[i]['red'] = users[i].attraction[0] * 255 * 8 # for test
+		g.vs[i]['blue'] = users[i].attraction[1] * 255 * 8
 	g.vs["label"] = g.vs["name"]
 	visual_style = {}
 	g.vs["color"] = ["rgb("+str(g.vs[i]['red'])+", 0, "+str(g.vs[i]['blue'])+")" for i in range(len(users))]
