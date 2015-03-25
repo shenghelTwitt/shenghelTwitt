@@ -65,13 +65,18 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 			print "**adding :", username
 			#passedUsers.append(user) shayad inja behtar bashe
 			user = scraper.User(username)
-			user.attraction = attraction.getAllTextsAttraction(user.get_twitt())
+			user_twitts = user.get_twitt()
+			lock_pause.acquire()
+			lock_pause.release()
+			user.attraction = attraction.getAllTextsAttraction(user_twitts)
 			print "user attraction is :", user.attraction
 			#print "after get atract"
 			user.followingUsernames = user.get_flwing()#age dota opener kar kone in bayad birone lock bere
 			"""inja chon tedade inQueueUsers ha ziade tekrari bodan dar inqueue ro bar resi nemikonim 
 			ta order zamani kam beshe dar avazmoghe faghat moghe ezafe kardan be inPAssed check
 			mikonim tekrari nabashe"""
+			lock_pause.acquire()
+			lock_pause.release()
 			lock_inQueueUsernames.acquire()
 			inQueueUsernames += user.followingUsernames
 			lock_inQueueUsernames.release()
@@ -137,6 +142,9 @@ while True:
 		fThreadsCount = input("how many thread? :")
 		start(fThreadsCount)
 	elif faz == "stop":#must be pause befor stop
+		if not lock_pause.locked():
+			lock_pause.acquire()
+			print "bigoodi"
 		stop()
 		print ("khoda hafeze hamegi")
 		break
