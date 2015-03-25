@@ -29,14 +29,13 @@ def isInPassedUsers(username):
 			return True
 	return False
 	
-def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
+def f():#inam be khatere inke ziadi code stylemon shakh nabashe
 	global inQueueUsernames
 	global passedUsers
 	global lock_passedUsers
 	global lock_inQueueUsernames
 	global lock_pause
 	while True:
-		print i
 		#print "salam"
 		#print("len is :",len(inQueueUsernames))
 		if len(inQueueUsernames) <= 0:
@@ -87,8 +86,8 @@ def f(i):#inam be khatere inke ziadi code stylemon shakh nabashe
 			inProcessUsernames.remove(username)
 			lock_inProcessUsernames.release()
 			
-fThreads = []
-def start(threadsCount):
+
+def initialize():
 	global inQueueUsernames
 	global passedUsers
 	global lock_inQueueUsernames
@@ -104,9 +103,10 @@ def start(threadsCount):
 		pickle.dump(["armanjtehrani","joof"], open("inQueueUsernames.st", "wb"))
 	passedUsers = pickle.load(open("passedUsers.st", "rb"))
 	inQueueUsernames = pickle.load(open("inQueueUsernames.st", "rb"))
+	
+def start(threadsCount):
 	for i in range(threadsCount):
-		fThreads.append(threading.Thread(target=f, args=(i,)))#in i bayad nabashe
-		print fThreads[i].daemon
+		fThreads.append(threading.Thread(target=f))
 		fThreads[i].setDaemon(True)
 		print fThreads[i].daemon
 		fThreads[i].start()
@@ -114,17 +114,25 @@ def start(threadsCount):
 	print "end of starting"
 	
 def stop():
+	global inQueueUsernames
+	global inProcessUsernames
+	inQueueUsernames = inProcessUsernames + inQueueUsernames ## for not missing in processes
+	inProcessUsernames = []
 	attraction.stop()
 	extraction.stop()
+	lock_passedUsers.acquire()
+	lock_inQueueUsernames.acquire()
 	file_passedUsers = open("passedUsers.st", "wb")
 	file_inQueueUsernames = open("inQueueUsernames.st", "wb")
 	pickle.dump(passedUsers, file_passedUsers)
 	pickle.dump(inQueueUsernames, file_inQueueUsernames)
 	file_passedUsers.close()
 	file_inQueueUsernames.close()
+	lock_passedUsers.release()
+	lock_inQueueUsernames.release()
 #	for thread in fThreads:
 	#	del thread
-	print "end of stop"
+#	print "end of stop"
 """start(1)
 print "after starting"
 import time
@@ -136,31 +144,51 @@ stop()
 print "after stop"
 """
 #bayad begim ke az ki shoro kone
+
+fThreads = []
+initialize()
 while True:
 	faz = raw_input("What do you want to do :")
 	if faz == "start":#in age tedadam vorodi begire awlie
 		fThreadsCount = input("how many thread? :")
+		if  lock_pause.locked():
+			lock_pause.release()
 		start(fThreadsCount)
 	elif faz == "stop":#must be pause befor stop
 		if not lock_pause.locked():
 			lock_pause.acquire()
-			print "bigoodi"
 		stop()
-		print ("khoda hafeze hamegi")
-		break
+		print ("type exit for quit")
 	elif faz == "pause":
-		lock_pause.acquire()
-	elif faz == "show":
-		lock_pause.acquire()
+		if lock_pause.locked():
+			print ("already paused")
+		else:
+			lock_pause.acquire()
+	elif faz == "exit":
+		print("goodbye")
+		break
+	elif faz == "showGraph":
+		if not lock_pause.locked():
+			lock_pause.acquire()
 		graph.draw_graph(passedUsers)
-	elif faz == "resume":
 		lock_pause.release()
+	elif faz == "resume":
+		if not lock_pause.locked():
+			print ("already in resume")
+		else:
+			lock_pause.release()
 	elif faz == "showAllWords":
-		print extraction.allWords
+		print (extraction.allWords, "len is ", len(extraction.allWords))
 	elif faz == "showFootballWords":
-		print attraction.footballsWords
+		print (attraction.footballsWords, "len is ", len(attraction.footballsWords))
 	elif faz == "showProgrammingWords":
-		print attraction.programmingWords
+		print (attraction.programmingWords, "len is ", len(attraction.programmingWords))
+	elif faz == "showUsers":
+		for user in passedUsers:
+			print (user)
+		print("len is ", len(passedUsers))
+	elif faz == "showInProcess":
+		print (inProcessUsernames)
 	else:
 		print ("what?")
 

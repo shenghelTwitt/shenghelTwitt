@@ -67,4 +67,5 @@ class User:
 		#self.flwing = self.get_flwing(name)
 		followingUsernames = []
 		self.attraction = [0, 0, 0] #[FOOTBALL/ALL, PROGRAMMING/ALL, ALL]
-
+	def __str__(self):
+		return self.name + " :" + str(self.attraction)

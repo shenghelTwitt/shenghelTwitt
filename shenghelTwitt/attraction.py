@@ -10,11 +10,11 @@ def start():
 	global programmingWords
 	if not os.path.exists("footballWords.st"):
 		file_footballWords = open("footballWords.st", "wb")
-		pickle.dump(["football", "goal","manchester united" , "man utd" , "man city" , "chelsea"
-                  ,"arsenal" , "liverpool" , "F.C barcelona" , "real madrid" ,
-                   "bayern munich","B.V.B" , "jueventus" , "A.C milan" ,
-                   "inter milan" , "Rooney" , "Van Persie" , "Mata" , "De Gea"
-                   , "Falcao" , "Di Maria" , "aguero" , "Toure" , "Nasri" ,
+		pickle.dump(["football", "goal","manchesterunited" , "manutd" , "mancity" , "chelsea"
+                  ,"arsenal" , "liverpool" , "barcelona" , "real" ," madrid" ,
+                   "bayern", "munich" , "B.V.B" , "jueventus" , "A.Cmilan" ,
+                   "inter milan" , "Rooney" , "VanPersie" , "Mata" , "De Gea"
+                   , "Falcao" , "Dimaria" , "aguero" , "Toure" , "Nasri" ,
                    "Silva" , "Costa", "Fabregas" , "Lampard" ,"Terry","Welbeck"
                    "Ozil" , "Giroud" , "Sterling" , "sturidge" , "Neymar" ,
                    "messy" , "Suarez" , "Pique" , "Iniesta" , "Ronaldo" , "Bale"
@@ -22,12 +22,23 @@ def start():
                    "Ribery" , "Gotze" , "Neuer" , "Hummels" , "Reus" , "Kagawa"
                    , "Tevez" , "Pogba" , "vidal" , "Podolski" , "Icardi" ,
                    "Red Devil" , "Mia_San_Mia" , "You'll_never_walk_alone" ,
-                   "Pride_of_London" , "Gunners" , "Noisy Neighburs" ,
-                   "La Decima" , "Tici Taca" , "Cantona" , "CR7"], file_footballWords)#
+                   "Pride_of_London" , "Gunners" , "NoisyNeighburs" ,
+                   "LaDecima" , "Tici Taca" , "Cantona" , "CR7" , "cristiano" , 'Confederation'
+                   , 'Cross', 'Defender', 'Dribble', 'FIFA', 'Foul', 'Kick', 
+                   'Goalkeeper', 'Header', 'Inswinger', 'Kickoff', 'Midfielder'
+                   , 'Nearpost', 'obstruction', 'Offside', 'Penalty', 'Card', 'Shot'
+                   , 'Tackle', 'Striker', 'Throw-In', 'Volley', 'Wingers', 'Defense',
+                   'half', 'Chip', 'season', 'match'], file_footballWords)#
 		file_footballWords.close()
 	if not os.path.exists("programmingWords.st"):
 		file_programmingWords = open("programmingWords.st", "wb")
-		pickle.dump(["programming", "cpp"], file_programmingWords)
+		pickle.dump(["programming", "cpp", 'python', 'laptop', 'ce', 'computer', 'cs', 'acm'
+		, 'IT', 'apple', 'mac', 'asus', 'android', 's4', 's5', 'mutable', 'mause', 'keyboard'
+		, 'smart', 'phone', 'softwere', 'hardwere', 'nvidia', 'intel', 'windows', 'x7'
+		, 'microsoft', 'bilgates', 'firefox', 'chrom', 'linux', 'ubuntu', 'touch', 'typing'
+		, 'programming', 'cpp', 'ruby', 'java', 'javascript', 'LG', 'sony', 'ultrabook'
+		, 'graph', 'Discrete', 'game', 'vidio', 'macbook', 'c', 'object', 'Ubisoft', 'Rockstar']
+		, file_programmingWords)
 		file_programmingWords.close()
 	file_footballWords = open("footballWords.st", "rb")
 	file_programmingWords = open("programmingWords.st", "rb")
